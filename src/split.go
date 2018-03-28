@@ -50,7 +50,7 @@ func main() {
 				if talk.DoNotRecord {
 					continue
 				}
-				filename := talk.Slug + ".json"
+				filename := fmt.Sprint(talk.ID) + ".json"
 				path := filepath.Join(dir, filename)
 
 				var buf []byte
@@ -63,7 +63,7 @@ func main() {
 					log.Fatal(err)
 				}
 
-				fmt.Println(talk.Slug, talk.Title)
+				fmt.Println(talk.ID, talk.Title)
 			}
 		}
 	}
