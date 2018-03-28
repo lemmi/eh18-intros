@@ -54,19 +54,22 @@ ts/%.ts: text/%.text $(FONTFILE) $(BACKGROUND)
     	-i "$(BACKGROUND)" \
     	-shortest \
     	-filter_complex "[0]split[base][text]; \
-	    [text]drawtext= \
-		textfile=$< \
-		:fontsize=64 \
-		:fontfile=$(FONTFILE) \
-		:x=50 \
-		:y=(main_h-text_h) \
-		:fontcolor=ffc800 \
-		:shadowx=5 \
-		:shadowy=5 \
-		:expansion=none \
-		:fix_bounds=true \
-		,format=yuva444p,fade=in:0:25:alpha=1,fade=out:199:25:alpha=1[title]; \
-		[base][title]overlay" \
+        [text]drawbox= \
+        y=ih-ih/4 \
+        :color=black@0.5 \
+        :width=iw \
+        :height=ih \
+        :t=max, \
+        drawtext= \
+        fontfile=$(FONTFILE) \
+        :y=h-h/4+10:x=20 \
+        :textfile=$< \
+        :fontcolor=ffc800 \
+        :fontsize=48, \
+        format=yuva444p, \
+        fade=in:0:25:alpha=1, \
+        fade=out:199:25:alpha=1[title]; \
+        [base][title]overlay" \
     	-map 0:v -c:v:0 mpeg2video -pix_fmt:v:0 yuv420p -qscale:v:0 4 -qmin:v:0 4 -qmax:v:0 4 -keyint_min:v:0 5 -bf:v:0 0 -g:v:0 5 -me_method:v:0 dia \
     	-map 0:a -c:a mp2 -b:a 384k -ac:a 2 -ar:a 48000 \
     	-flags +global_header \
